@@ -9,14 +9,14 @@ class Products with ChangeNotifier {
         description: 'A red shirt - it is pretty red!',
         price: 29.99,
         imageUrl:
-        'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_960_720.jpg'),
+            'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_960_720.jpg'),
     Product(
         id: 'p2',
         title: 'Blue Shirt',
         description: 'A blue shirt - it is pretty blue!',
         price: 19.99,
         imageUrl:
-        'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
+            'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
   ];
 //  var _showFavoritesOnly = false;
 
@@ -35,8 +35,15 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  void addProduct() {
-//    _items.add(value);
+  void addProduct(Product product) {
+    final newProduct = Product(
+      title: product.title,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      id: DateTime.now().toString(),
+    );
+    _items.add(newProduct);
     notifyListeners();
   }
 }
