@@ -18,9 +18,17 @@ class Products with ChangeNotifier {
         imageUrl:
         'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
   ];
+//  var _showFavoritesOnly = false;
 
   List<Product> get items {
+//    if (_showFavoritesOnly) {
+//      return [..._items].where((prodItem) => prodItem.isFavorite).toList();
+//    }
     return [..._items];
+  }
+
+  List<Product> get favoriteItems {
+    return _items.where((element) => element.isFavorite).toList();
   }
 
   Product findById(String id) {
