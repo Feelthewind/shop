@@ -6,20 +6,20 @@ import 'package:shopping_app/providers/product.dart';
 
 class Products with ChangeNotifier {
   List<Product> _items = [
-    Product(
-        id: 'p1',
-        title: 'Red Shirt',
-        description: 'A red shirt - it is pretty red!',
-        price: 29.99,
-        imageUrl:
-            'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_960_720.jpg'),
-    Product(
-        id: 'p2',
-        title: 'Blue Shirt',
-        description: 'A blue shirt - it is pretty blue!',
-        price: 19.99,
-        imageUrl:
-            'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
+//    Product(
+//        id: 'p1',
+//        title: 'Red Shirt',
+//        description: 'A red shirt - it is pretty red!',
+//        price: 29.99,
+//        imageUrl:
+//            'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_960_720.jpg'),
+//    Product(
+//        id: 'p2',
+//        title: 'Blue Shirt',
+//        description: 'A blue shirt - it is pretty blue!',
+//        price: 19.99,
+//        imageUrl:
+//            'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
   ];
 //  var _showFavoritesOnly = false;
 
@@ -42,7 +42,19 @@ class Products with ChangeNotifier {
     const url = 'https://flutter-update-396ab.firebaseio.com/products.json';
     try {
       final response = await http.get(url);
-      print(json.decode(response.body));
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Product> loadedProducts = [];
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(Product(
+          id: prodId,
+          title: prodData['title'],
+          description: prodData['description'],
+          price: prodData['price'],
+          isFavorite: prodData['isFavorite'],
+          imageUrl: prodData['imageUrl'],
+        ));
+      });
+      _items = loadedProducts;
       notifyListeners();
     } catch (e) {
       throw e;
