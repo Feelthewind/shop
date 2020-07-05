@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shopping_app/models/http_exception.dart';
+import 'package:shopping_app/providers/auth.dart';
 import 'package:shopping_app/providers/product.dart';
 
 class Products with ChangeNotifier {
@@ -23,6 +24,11 @@ class Products with ChangeNotifier {
 //            'https://cdn.pixabay.com/photo/2016/01/19/17/53/writing-1149962_960_720.jpg'),
   ];
 //  var _showFavoritesOnly = false;
+  String authToken;
+
+  void update(Auth auth) {
+    authToken = auth.token;
+  }
 
   List<Product> get items {
 //    if (_showFavoritesOnly) {
@@ -40,7 +46,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    const url = 'https://flutter-update-396ab.firebaseio.com/products.json';
+    final url = 'https://flutter-update-396ab.firebaseio.com/products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
