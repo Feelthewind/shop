@@ -92,10 +92,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
       } else {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
     } catch (e) {
       await showDialog(
@@ -113,12 +109,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ],
         ),
       );
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     }
+    setState(() {
+      _isLoading = false;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
